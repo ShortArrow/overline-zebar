@@ -17,6 +17,7 @@ export type {
   ProviderSettings,
   RootConfig,
   ScriptLauncherWidgetSettings,
+  TemperatureLimits,
   Theme,
   Threshold,
   WidgetSettingsMap,

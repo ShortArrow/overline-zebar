@@ -403,6 +403,9 @@ importers:
       '@overline-zebar/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@overline-zebar/lhm':
+        specifier: workspace:*
+        version: link:../../packages/lhm
       '@overline-zebar/tailwind':
         specifier: workspace:*
         version: link:../../packages/tailwind

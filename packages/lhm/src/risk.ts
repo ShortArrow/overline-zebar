@@ -30,3 +30,15 @@ export function findMostCritical(
     null
   );
 }
+
+/** Converts ranges given in percent of a limit into degrees Celsius for that limit. */
+export function toCelsiusRanges<T extends { min: number; max: number }>(
+  ranges: T[],
+  limit: number
+): T[] {
+  return ranges.map((r) => ({
+    ...r,
+    min: (r.min * limit) / 100,
+    max: (r.max * limit) / 100,
+  }));
+}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { LhmNode } from './lhm';
-import { findMostCritical } from './risk';
+import { findMostCritical, toCelsiusRanges } from './risk';
 
 function hardware(HardwareId: string, sensors: [string, string][]): LhmNode {
   return {
@@ -52,5 +52,19 @@ describe('findMostCritical', () => {
     expect(
       findMostCritical({ Text: 'Sensor', Children: [] }, limits)
     ).toBeNull();
+  });
+});
+
+describe('toCelsiusRanges', () => {
+  it('scales percent-of-limit ranges to degrees, keeping other fields', () => {
+    const ranges = [
+      { id: 'a', min: 0, max: 70, labelColor: '--text' },
+      { id: 'b', min: 70, max: 100, labelColor: '--danger' },
+    ];
+
+    expect(toCelsiusRanges(ranges, 90)).toEqual([
+      { id: 'a', min: 0, max: 63, labelColor: '--text' },
+      { id: 'b', min: 63, max: 90, labelColor: '--danger' },
+    ]);
   });
 });

@@ -41,6 +41,13 @@ export const ProviderSettingsSchema = z.object({
   memory: z.boolean().default(true),
   weather: z.boolean().default(true),
   battery: z.boolean().default(true),
+  temperature: z.boolean().default(false),
+});
+
+export const TemperatureLimitsSchema = z.object({
+  cpu: z.number().positive().default(95),
+  gpu: z.number().positive().default(90),
+  memory: z.number().positive().default(85),
 });
 
 export const MainWidgetSettingsSchema = BaseWidgetSettingsSchema.extend({
@@ -62,6 +69,7 @@ export const MainWidgetSettingsSchema = BaseWidgetSettingsSchema.extend({
   providers: ProviderSettingsSchema.default({}),
   systemStatThresholds: z.array(ThresholdSchema).default([]),
   batteryThresholds: z.array(ThresholdSchema).default([]),
+  temperatureLimits: TemperatureLimitsSchema.default({}),
   useInlineStats: z.boolean().default(false),
 });
 

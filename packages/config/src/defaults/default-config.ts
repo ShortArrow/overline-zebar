@@ -39,6 +39,7 @@ export const defaultConfig: RootConfig = {
         { id: 'battery-2', min: 20, max: 60, labelColor: '--warning' },
         { id: 'battery-3', min: 60, max: 100, labelColor: '--text' },
       ],
+      temperatureLimits: { cpu: 95, gpu: 90, memory: 85 },
       useInlineStats: false,
       pinnedSystrayIcons: [],
       showSystray: true,
@@ -56,6 +57,7 @@ export const defaultConfig: RootConfig = {
         memory: true,
         weather: true,
         battery: true,
+        temperature: false,
       },
     },
     'script-launcher': {

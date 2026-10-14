@@ -8,6 +8,7 @@ import {
   ProviderSettingsSchema,
   RootConfigSchema,
   ScriptLauncherWidgetSettingsSchema,
+  TemperatureLimitsSchema,
   ThemeSchema,
   ThresholdSchema,
 } from './zod-types';
@@ -23,6 +24,7 @@ export type ScriptLauncherWidgetSettings = z.infer<
 export type AllWidgetSettings = z.infer<typeof AllWidgetSettingsSchema>;
 export type RootConfig = z.infer<typeof RootConfigSchema>;
 export type ProviderSettings = z.infer<typeof ProviderSettingsSchema>;
+export type TemperatureLimits = z.infer<typeof TemperatureLimitsSchema>;
 export type LauncherCommand = z.infer<typeof LauncherCommandSchema>;
 
 export type WidgetSettingsMap = {
