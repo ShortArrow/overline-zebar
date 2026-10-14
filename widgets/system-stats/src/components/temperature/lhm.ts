@@ -11,20 +11,26 @@ export type HardwareKind = keyof typeof HARDWARE;
 
 /**
  * How to recognise each kind of hardware and which of its temperature sensors
- * represents it as a whole, most representative first.
+ * represent it as a whole, most representative first.
  */
 const HARDWARE = {
   cpu: {
     hardwareId: /^\/(amd|intel)cpu\//,
     sensors: [
-      'Core (Tctl/Tdie)',
-      'Core (Tdie)',
-      'Core (Tctl)',
-      'CPU Package',
-      'Package',
+      /^Core \((Tctl\/Tdie|Tdie|Tctl)\)$/,
+      /^CPU Package$/,
+      /^Package$/,
     ],
   },
-} satisfies Record<string, { hardwareId: RegExp; sensors: string[] }>;
+  gpu: {
+    hardwareId: /^\/gpu-/,
+    sensors: [/^GPU Core$/, /^GPU Hot Spot$/],
+  },
+  memory: {
+    hardwareId: /^\/memory\/dimm\//,
+    sensors: [/^DIMM #\d+$/],
+  },
+} satisfies Record<string, { hardwareId: RegExp; sensors: RegExp[] }>;
 
 /**
  * Reads a sensor value such as `"80.8 °C"` as degrees Celsius.
@@ -36,36 +42,28 @@ export function parseLhmTemperature(value: string): number | null {
 }
 
 /**
- * Finds the representative temperature of the first hardware of the given kind.
+ * Finds the hottest reading among all hardware of the given kind, using the
+ * most representative sensor name that any of them reports.
  * Readings reported by other hardware (e.g. the motherboard's "CPU Core") are ignored;
- * returns null when no preferred sensor exists or it is unreadable.
+ * returns null when no preferred sensor exists or none is readable.
  */
 export function findTemperature(
   data: LhmNode,
   kind: HardwareKind
 ): number | null {
   const { hardwareId, sensors } = HARDWARE[kind];
-  const hardware = findNode(data, (n) => hardwareId.test(n.HardwareId ?? ''));
-  if (!hardware) return null;
+  const temperatures = collect(data, (n) =>
+    hardwareId.test(n.HardwareId ?? '')
+  ).flatMap((hardware) => collect(hardware, (n) => n.Type === 'Temperature'));
 
-  const temperatures = collect(hardware, (n) => n.Type === 'Temperature');
   for (const name of sensors) {
-    const sensor = temperatures.find((s) => s.Text === name);
-    if (sensor) return parseLhmTemperature(sensor.Value ?? '');
+    const readings = temperatures
+      .filter((s) => name.test(s.Text))
+      .map((s) => parseLhmTemperature(s.Value ?? ''))
+      .filter((celsius) => celsius !== null);
+    if (readings.length > 0) return Math.max(...readings);
   }
   return null;
-}
-
-function findNode(
-  node: LhmNode,
-  predicate: (n: LhmNode) => boolean
-): LhmNode | undefined {
-  if (predicate(node)) return node;
-  for (const child of node.Children) {
-    const found = findNode(child, predicate);
-    if (found) return found;
-  }
-  return undefined;
 }
 
 function collect(node: LhmNode, predicate: (n: LhmNode) => boolean): LhmNode[] {

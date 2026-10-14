@@ -1,10 +1,18 @@
 import { Card, CardTitle, PanelLayout } from '@overline-zebar/ui';
-import { CpuIcon, LucideIcon, Thermometer } from 'lucide-react';
+import {
+  CpuIcon,
+  LucideIcon,
+  MemoryStick,
+  MonitorCog,
+  Thermometer,
+} from 'lucide-react';
 import { findTemperature, HardwareKind } from './lhm';
 import { useLhmData } from './useLhmData';
 
 const ROWS: { kind: HardwareKind; label: string; Icon: LucideIcon }[] = [
   { kind: 'cpu', label: 'CPU', Icon: CpuIcon },
+  { kind: 'gpu', label: 'GPU', Icon: MonitorCog },
+  { kind: 'memory', label: 'Memory', Icon: MemoryStick },
 ];
 
 export default function Temperature() {

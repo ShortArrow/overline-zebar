@@ -101,3 +101,47 @@ describe("findTemperature(data, 'cpu')", () => {
     expect(findTemperature(data, 'cpu')).toBeNull();
   });
 });
+
+describe("findTemperature(data, 'gpu')", () => {
+  const nvidia = hardware('NVIDIA GeForce RTX 3080', '/gpu-nvidia/0', [
+    sensor('GPU Core', '41.0 °C'),
+    sensor('GPU Hot Spot', '47.2 °C'),
+    sensor('GPU Memory Junction', '46.0 °C'),
+  ]);
+  const integrated = hardware('AMD Radeon(TM) Graphics', '/gpu-amd/0', [
+    sensor('GPU VR SoC', '55.0 °C'),
+  ]);
+
+  it('prefers GPU Core over hot spot and memory junction', () => {
+    expect(findTemperature(root(nvidia), 'gpu')).toBe(41);
+  });
+
+  it('skips an integrated GPU without a core sensor listed first', () => {
+    expect(findTemperature(root(integrated, nvidia), 'gpu')).toBe(41);
+  });
+
+  it('returns null when there is no GPU', () => {
+    expect(findTemperature(root(motherboard), 'gpu')).toBeNull();
+  });
+});
+
+describe("findTemperature(data, 'memory')", () => {
+  function dimm(slot: number, celsius: string): LhmNode {
+    return hardware(`Micron (#${slot})`, `/memory/dimm/${slot}`, [
+      sensor(`DIMM #${slot}`, celsius),
+      sensor('Temperature Sensor Resolution', '0.3 °C'),
+      sensor('Thermal Sensor High Limit', '55.0 °C'),
+      sensor('Thermal Sensor Critical High Limit', '85.0 °C'),
+    ]);
+  }
+
+  it('reports the hottest DIMM and ignores limit sensors', () => {
+    expect(
+      findTemperature(root(dimm(1, '42.0 °C'), dimm(3, '44.5 °C')), 'memory')
+    ).toBe(44.5);
+  });
+
+  it('returns null when no DIMM reports a temperature', () => {
+    expect(findTemperature(root(motherboard), 'memory')).toBeNull();
+  });
+});
