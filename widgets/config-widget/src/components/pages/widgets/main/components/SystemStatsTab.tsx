@@ -6,19 +6,45 @@ import {
   Switch,
 } from '@overline-zebar/ui';
 import ThresholdsInput from './ThresholdsInput';
-import { useWidgetSetting, ProviderSettings } from '@overline-zebar/config';
+import {
+  useWidgetSetting,
+  ProviderSettings,
+  TemperatureLimits,
+} from '@overline-zebar/config';
 import { Separator } from '@/components/common/Separator';
+import { CoordinateInput } from '@/components/CoordinateInput';
+import { NumberInput } from '@/components/NumberInput';
 
 const providerLabels: Record<keyof ProviderSettings, string> = {
   cpu: 'CPU Usage',
   memory: 'Memory Usage',
   weather: 'Weather',
   battery: 'Battery',
+  temperature: 'Temperature',
+};
+
+const providerDescriptions: Partial<Record<keyof ProviderSettings, string>> = {
+  temperature:
+    'Shows the hardware closest to its limit. Requires LibreHardwareMonitor running as administrator with its Remote Web Server on port 8085.',
+};
+
+const temperatureLimitLabels: Record<keyof TemperatureLimits, string> = {
+  cpu: 'CPU',
+  gpu: 'GPU',
+  memory: 'Memory',
 };
 
 export default function SystemStatsTab() {
   const [providers, setProviders] = useWidgetSetting('main', 'providers');
   const [weatherUnit, setWeatherUnit] = useWidgetSetting('main', 'weatherUnit');
+  const [weatherLatitude, setWeatherLatitude] = useWidgetSetting(
+    'main',
+    'weatherLatitude'
+  );
+  const [weatherLongitude, setWeatherLongitude] = useWidgetSetting(
+    'main',
+    'weatherLongitude'
+  );
   const [useInlineStats, setUseInlineStats] = useWidgetSetting(
     'main',
     'useInlineStats'
@@ -30,6 +56,10 @@ export default function SystemStatsTab() {
   const [batteryThresholds, setBatteryThresholds] = useWidgetSetting(
     'main',
     'batteryThresholds'
+  );
+  const [temperatureLimits, setTemperatureLimits] = useWidgetSetting(
+    'main',
+    'temperatureLimits'
   );
 
   const handleProviderToggle = (
@@ -49,7 +79,7 @@ export default function SystemStatsTab() {
             Enable or disable individual system stat providers.
           </p>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-6">
           {(Object.keys(providers) as Array<keyof ProviderSettings>).map(
             (key) => (
               <FormField switch key={key}>
@@ -62,6 +92,11 @@ export default function SystemStatsTab() {
                     }
                   />
                 </FieldInput>
+                {providerDescriptions[key] && (
+                  <FieldDescription>
+                    {providerDescriptions[key]}
+                  </FieldDescription>
+                )}
               </FormField>
             )
           )}
@@ -72,7 +107,7 @@ export default function SystemStatsTab() {
       {(providers.cpu || providers.memory) && (
         <>
           <Separator />
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="space-y-0.5 mb-4">
               <h1 className="text-text">CPU & RAM Display</h1>
               <p className="text-text-muted">
@@ -113,7 +148,7 @@ export default function SystemStatsTab() {
 
       {/* Weather Specific Settings */}
       {providers.weather && (
-        <div className="space-y-4">
+        <div className="space-y-6">
           <h1 className="text-text-muted font-medium">Weather Settings</h1>
           <FormField switch>
             <FieldTitle>Toggle Fahrenheit</FieldTitle>
@@ -127,6 +162,30 @@ export default function SystemStatsTab() {
             </FieldInput>
             <FieldDescription>
               Toggle to display weather temperatures in Fahrenheit or Celsius.
+            </FieldDescription>
+          </FormField>
+          <FormField>
+            <FieldTitle>Location Override</FieldTitle>
+            <FieldInput>
+              <div className="grid grid-cols-2 gap-3">
+                <CoordinateInput
+                  placeholder="Latitude"
+                  value={weatherLatitude}
+                  onChange={setWeatherLatitude}
+                  min={-90}
+                  max={90}
+                />
+                <CoordinateInput
+                  placeholder="Longitude"
+                  value={weatherLongitude}
+                  onChange={setWeatherLongitude}
+                  min={-180}
+                  max={180}
+                />
+              </div>
+            </FieldInput>
+            <FieldDescription>
+              Leave empty to estimate location from your IP address.
             </FieldDescription>
           </FormField>
           <div className="space-y-4">
@@ -158,6 +217,44 @@ export default function SystemStatsTab() {
               onChange={setBatteryThresholds}
               settingKey="batteryThresholds"
             />
+          </div>
+        </>
+      )}
+
+      {/* Temperature Limits */}
+      {providers.temperature && (
+        <>
+          <Separator />
+          <div className="space-y-6">
+            <div className="space-y-0.5">
+              <h1 className="text-text">Temperature Limits</h1>
+              <p className="text-text-muted">
+                Temperature in °C treated as 100%. The stat shows whichever
+                hardware is closest to its limit, coloured by the CPU & RAM
+                thresholds.
+              </p>
+            </div>
+            {(
+              Object.keys(temperatureLimitLabels) as Array<
+                keyof TemperatureLimits
+              >
+            ).map((kind) => (
+              <FormField key={kind}>
+                <FieldTitle>{temperatureLimitLabels[kind]}</FieldTitle>
+                <FieldInput>
+                  <NumberInput
+                    value={temperatureLimits[kind]}
+                    onChange={(celsius) =>
+                      setTemperatureLimits({
+                        ...temperatureLimits,
+                        [kind]: Math.max(1, celsius),
+                      })
+                    }
+                    min={1}
+                  />
+                </FieldInput>
+              </FormField>
+            ))}
           </div>
         </>
       )}

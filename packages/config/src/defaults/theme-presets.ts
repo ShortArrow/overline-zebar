@@ -21,6 +21,48 @@ export const defaultTheme: Theme = {
   },
 };
 
+export const nordTheme: Theme = {
+  id: 'nord',
+  name: 'Nord (Dark)',
+  colors: {
+    '--border': '#4C566A',
+    '--background': '#2E3440',
+    '--background-deeper': '#242933',
+    '--button': '#3B4252',
+    '--button-border': '#434C5E',
+    '--primary': '#81A1C1',
+    '--primary-border': '#a3caf1',
+    '--primary-text': '#2E3440',
+    '--text': '#ECEFF4',
+    '--text-muted': '#D8DEE9',
+    '--icon': '#E5E9F0',
+    '--success': '#A3BE8C',
+    '--danger': '#BF616A',
+    '--warning': '#EBCB8B',
+  },
+};
+
+export const nordLightTheme: Theme = {
+  id: 'nord-light',
+  name: 'Nord (Light)',
+  colors: {
+    '--border': '#BDC4D0',
+    '--background': '#ECEFF4',
+    '--background-deeper': '#D8DEE9',
+    '--button': '#E5E9F0',
+    '--button-border': '#BDC4D0',
+    '--primary': '#81A1C1',
+    '--primary-border': '#5E81AC',
+    '--primary-text': '#ECEFF4',
+    '--text': '#3B4252',
+    '--text-muted': '#4C566A',
+    '--icon': '#4C566A',
+    '--success': '#A3BE8C',
+    '--danger': '#BF616A',
+    '--warning': '#EBCB8B',
+  },
+};
+
 export const catppuccinThemes: Theme[] = [
   {
     id: 'latte',

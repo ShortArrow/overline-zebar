@@ -8,10 +8,12 @@
     "build": "vite build",
     "build:watch": "vite build --watch",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run"
   },
   "dependencies": {
     "@overline-zebar/config": "workspace:*",
+    "@overline-zebar/lhm": "workspace:*",
     "@overline-zebar/tailwind": "workspace:*",
     "@overline-zebar/ui": "workspace:*",
     "@radix-ui/react-slider": "^1.2.2",
@@ -34,6 +36,7 @@
     "@types/node": "^22.10.5",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "typescript-eslint": "^8.0.0",
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.13.0",
@@ -45,6 +48,7 @@
     "tailwindcss": "catalog:",
     "typescript": "^5.7.2",
     "vite": "^5.4.10",
-    "vite-plugin-node": "^4.0.0"
+    "vite-plugin-node": "^4.0.0",
+    "vitest": "^2.1.9"
   }
 }

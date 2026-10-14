@@ -1,4 +1,9 @@
-import { catppuccinThemes, defaultTheme } from '../defaults/theme-presets';
+import {
+  catppuccinThemes,
+  defaultTheme,
+  nordLightTheme,
+  nordTheme,
+} from '../defaults/theme-presets';
 import { RootConfig } from '../types';
 
 export const defaultConfig: RootConfig = {
@@ -6,14 +11,17 @@ export const defaultConfig: RootConfig = {
   app: {
     useAutoTiling: false,
     zebarWebsocketUri: 'ws://localhost:6123',
-    themes: [defaultTheme, ...catppuccinThemes],
+    themes: [defaultTheme, ...catppuccinThemes, nordTheme, nordLightTheme],
     currentThemeId: 'default',
     radius: '0.5rem',
     windowEffect: 'acrylic',
+    fontFamily: 'Geist Mono',
+    systemThemeSync: false,
+    lightThemeId: 'latte',
+    darkThemeId: 'default',
   },
   widgets: {
     main: {
-      flowLauncherPath: '',
       mediaMaxWidth: '400',
       weatherThresholds: [
         { id: 'weather-1', min: -10, max: 0, labelColor: '--danger' },
@@ -31,9 +39,13 @@ export const defaultConfig: RootConfig = {
         { id: 'battery-2', min: 20, max: 60, labelColor: '--warning' },
         { id: 'battery-3', min: 60, max: 100, labelColor: '--text' },
       ],
+      temperatureLimits: { cpu: 95, gpu: 90, memory: 85 },
       useInlineStats: false,
       pinnedSystrayIcons: [],
+      showSystray: true,
       weatherUnit: 'celsius',
+      weatherLatitude: null,
+      weatherLongitude: null,
       dynamicWorkspaceIndicator: false,
       marginX: 0,
       paddingLeft: 4,
@@ -45,6 +57,7 @@ export const defaultConfig: RootConfig = {
         memory: true,
         weather: true,
         battery: true,
+        temperature: false,
       },
     },
     'script-launcher': {

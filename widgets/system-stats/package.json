@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@overline-zebar/config": "workspace:*",
+    "@overline-zebar/lhm": "workspace:*",
     "@overline-zebar/tailwind": "workspace:*",
     "@overline-zebar/ui": "workspace:*",
     "@radix-ui/react-slider": "^1.2.2",
@@ -44,6 +45,7 @@
     "postcss": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "^5.7.2",
+    "typescript-eslint": "^8.0.0",
     "vite": "^5.4.10",
     "vite-plugin-node": "^4.0.0"
   }

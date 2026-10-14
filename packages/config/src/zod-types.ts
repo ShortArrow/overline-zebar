@@ -30,6 +30,10 @@ export const AppSettingsSchema = z.object({
   currentThemeId: z.string(),
   radius: z.string(),
   windowEffect: z.string().default('acrylic'),
+  fontFamily: z.string().default('Geist Mono'),
+  systemThemeSync: z.boolean().default(false),
+  lightThemeId: z.string().nullable().default('latte'),
+  darkThemeId: z.string().nullable().default('default'),
 });
 
 export const ProviderSettingsSchema = z.object({
@@ -37,16 +41,25 @@ export const ProviderSettingsSchema = z.object({
   memory: z.boolean().default(true),
   weather: z.boolean().default(true),
   battery: z.boolean().default(true),
+  temperature: z.boolean().default(false),
+});
+
+export const TemperatureLimitsSchema = z.object({
+  cpu: z.number().positive().default(95),
+  gpu: z.number().positive().default(90),
+  memory: z.number().positive().default(85),
 });
 
 export const MainWidgetSettingsSchema = BaseWidgetSettingsSchema.extend({
-  flowLauncherPath: z.string().default(''),
   mediaMaxWidth: z.string().default('400'),
   weatherThresholds: z.array(ThresholdSchema).default([]),
   weatherUnit: z
     .union([z.literal('celsius'), z.literal('fahrenheit')])
     .default('celsius'),
+  weatherLatitude: z.number().nullable().default(null),
+  weatherLongitude: z.number().nullable().default(null),
   pinnedSystrayIcons: z.array(SystrayIconSchema).default([]),
+  showSystray: z.boolean().default(true),
   marginX: z.number().default(0),
   paddingLeft: z.number().default(4),
   paddingRight: z.number().default(4),
@@ -56,6 +69,7 @@ export const MainWidgetSettingsSchema = BaseWidgetSettingsSchema.extend({
   providers: ProviderSettingsSchema.default({}),
   systemStatThresholds: z.array(ThresholdSchema).default([]),
   batteryThresholds: z.array(ThresholdSchema).default([]),
+  temperatureLimits: TemperatureLimitsSchema.default({}),
   useInlineStats: z.boolean().default(false),
 });
 

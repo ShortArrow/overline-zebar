@@ -11,14 +11,15 @@ type WorkspaceControlsProps = {
 };
 
 export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
-  if (!glazewm) return null;
-
-  const workspaces = glazewm.currentWorkspaces;
-  const focusedWorkspace = glazewm.focusedWorkspace;
   const [dynamicWorkspaceIndicator] = useWidgetSetting(
     'main',
     'dynamicWorkspaceIndicator'
   );
+
+  if (!glazewm) return null;
+
+  const workspaces = glazewm.currentWorkspaces;
+  const focusedWorkspace = glazewm.focusedWorkspace;
 
   const borderRadius = tailwindConfig.theme.borderRadius['2xl'];
   const springConfig = { type: 'spring', stiffness: 300, damping: 30 };
@@ -81,7 +82,7 @@ export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
               onClick={() =>
                 glazewm.runCommand(`focus --workspace ${workspace.name}`)
               }
-              className="relative touch-hitbox flex items-center justify-center px-1 max-w-[10rem] h-full"
+              className="relative touch-hitbox flex items-center justify-center px-1 min-w-0 max-w-[10rem] h-full"
               style={{ WebkitTapHighlightColor: 'transparent' }}
             >
               {isActive && (
@@ -98,14 +99,14 @@ export function WorkspaceControls({ glazewm }: WorkspaceControlsProps) {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
                 className={cn(
-                  'relative z-10 truncate px-0.5 w-full h-full leading-none text-center flex items-center justify-center',
+                  'relative z-10 px-0.5 w-full h-full leading-none text-center flex items-center justify-center',
                   'transition-colors ease-in-out duration-200',
                   isActive
                     ? 'text-primary-text font-medium'
                     : 'text-text-muted hover:text-text transition-colors'
                 )}
               >
-                {label}
+                <span className="truncate block min-w-0">{label}</span>
               </motion.span>
             </motion.button>
           );
