@@ -74,7 +74,12 @@
       ],
       "caching": {
         "defaultDuration": 604800,
-        "rules": []
+        "rules": [
+          {
+            "urlRegex": "^http://localhost:8085/",
+            "duration": 0
+          }
+        ]
       },
       "privileges": {
         "shellCommands": []
