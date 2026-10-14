@@ -6,7 +6,12 @@ import {
   MonitorCog,
   Thermometer,
 } from 'lucide-react';
-import { findTemperature, HardwareKind } from './lhm';
+import {
+  findTemperature,
+  HardwareKind,
+  listTemperatures,
+  TemperatureReading,
+} from './lhm';
 import { useLhmData } from './useLhmData';
 
 const ROWS: { kind: HardwareKind; label: string; Icon: LucideIcon }[] = [
@@ -38,6 +43,7 @@ export default function Temperature() {
     <PanelLayout className="p-2 px-2.5 space-y-3">
       {ROWS.map(({ kind, label, Icon }) => {
         const celsius = findTemperature(lhm.data, kind);
+        const readings = listTemperatures(lhm.data, kind);
         return (
           <div key={kind}>
             <h3 className="font-medium flex items-center text-text-muted gap-2 mb-1.5">
@@ -52,9 +58,25 @@ export default function Temperature() {
                   : `${celsius.toFixed(1)} °C`}
               </Card>
             </div>
+            <Readings readings={readings} />
           </div>
         );
       })}
     </PanelLayout>
+  );
+}
+
+function Readings({ readings }: { readings: TemperatureReading[] }) {
+  if (readings.length === 0) return null;
+
+  return (
+    <dl className="grid grid-cols-[1fr_auto] gap-x-3 mt-1.5 px-1 select-text text-text-muted">
+      {readings.map(({ label, celsius }) => (
+        <div key={label} className="contents">
+          <dt className="truncate">{label}</dt>
+          <dd className="tabular-nums text-right">{`${celsius.toFixed(1)} °C`}</dd>
+        </div>
+      ))}
+    </dl>
   );
 }
