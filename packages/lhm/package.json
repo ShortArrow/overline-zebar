@@ -1,0 +1,19 @@
+{
+  "name": "@overline-zebar/lhm",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "react": "catalog:"
+  },
+  "devDependencies": {
+    "@overline-zebar/typescript": "workspace:*",
+    "@types/react": "catalog:",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.9"
+  }
+}

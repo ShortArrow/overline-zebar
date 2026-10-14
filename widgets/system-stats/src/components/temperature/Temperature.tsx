@@ -11,8 +11,8 @@ import {
   HardwareKind,
   listTemperatures,
   TemperatureReading,
-} from './lhm';
-import { useLhmData } from './useLhmData';
+  useLhmData,
+} from '@overline-zebar/lhm';
 
 const ROWS: { kind: HardwareKind; label: string; Icon: LucideIcon }[] = [
   { kind: 'cpu', label: 'CPU', Icon: CpuIcon },
