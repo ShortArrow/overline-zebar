@@ -36,7 +36,11 @@ export default function TemperatureStat({
     <Stat
       Icon={
         <span className="flex items-center gap-0.5 font-medium text-icon">
-          <Thermometer className="size-3.5" aria-hidden="true" />
+          <Thermometer
+            className="size-3.5"
+            aria-hidden={label !== null}
+            aria-label={label === null ? 'Temperature' : undefined}
+          />
           {label}
         </span>
       }

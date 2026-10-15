@@ -12,7 +12,8 @@ const LABELS: Record<HardwareKind, string> = {
 };
 
 export type TemperatureStatView = {
-  label: string;
+  /** Which hardware it is, shown only inline; the ring carries just an icon. */
+  label: string | null;
   type: 'inline' | 'ring';
   stat: string;
   threshold: Threshold[];
@@ -28,16 +29,15 @@ export function toTemperatureStat(
   thresholds: Threshold[],
   inline: boolean
 ): TemperatureStatView {
-  const label = LABELS[critical.kind];
   return inline
     ? {
-        label,
+        label: LABELS[critical.kind],
         type: 'inline',
         stat: `${Math.round(critical.celsius)}°C`,
         threshold: toCelsiusRanges(thresholds, limits[critical.kind]),
       }
     : {
-        label,
+        label: null,
         type: 'ring',
         stat: `${Math.round(critical.ratio * 100)}%`,
         threshold: thresholds,
