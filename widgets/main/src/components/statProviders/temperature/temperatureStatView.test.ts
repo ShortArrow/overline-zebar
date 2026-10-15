@@ -10,11 +10,11 @@ const thresholds: Threshold[] = [
 ];
 
 describe('toTemperatureStat', () => {
-  it('shows the share of the limit on a ring with the thresholds as they are', () => {
+  it('shows the share of the limit on an unlabelled ring with the thresholds as they are', () => {
     const critical = { kind: 'gpu' as const, celsius: 72, ratio: 0.8 };
 
     expect(toTemperatureStat(critical, limits, thresholds, false)).toEqual({
-      label: 'GPU',
+      label: null,
       type: 'ring',
       stat: '80%',
       threshold: thresholds,
