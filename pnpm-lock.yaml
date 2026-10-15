@@ -591,6 +591,9 @@ importers:
 
   widgets/system-stats:
     dependencies:
+      '@overline-zebar/claude-usage':
+        specifier: workspace:*
+        version: link:../../packages/claude-usage
       '@overline-zebar/config':
         specifier: workspace:*
         version: link:../../packages/config
