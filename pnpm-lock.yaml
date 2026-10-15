@@ -73,6 +73,28 @@ importers:
         specifier: ^8.0.0
         version: 8.71.1(eslint@9.28.0(jiti@1.21.7))(typescript@5.8.3)
 
+  packages/claude-usage:
+    dependencies:
+      react:
+        specifier: 'catalog:'
+        version: 18.3.1
+      zebar:
+        specifier: 'catalog:'
+        version: 3.3.1(ws@7.5.10)
+    devDependencies:
+      '@overline-zebar/typescript':
+        specifier: workspace:*
+        version: link:../typescript
+      '@types/react':
+        specifier: 'catalog:'
+        version: 18.3.23
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+      vitest:
+        specifier: ^2.1.9
+        version: 2.1.9(@types/node@22.15.29)(supports-color@7.2.0)
+
   packages/config:
     dependencies:
       '@tauri-apps/api':
