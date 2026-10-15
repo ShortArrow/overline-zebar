@@ -21,11 +21,14 @@ const providerLabels: Record<keyof ProviderSettings, string> = {
   weather: 'Weather',
   battery: 'Battery',
   temperature: 'Temperature',
+  claudeUsage: 'Claude Usage',
 };
 
 const providerDescriptions: Partial<Record<keyof ProviderSettings, string>> = {
   temperature:
     'Shows the hardware closest to its limit. Requires LibreHardwareMonitor running as administrator with its Remote Web Server on port 8085.',
+  claudeUsage:
+    'Shows the Claude plan limit closest to being reached, as in /usage. Requires Claude Code signed in on this machine.',
 };
 
 const temperatureLimitLabels: Record<keyof TemperatureLimits, string> = {

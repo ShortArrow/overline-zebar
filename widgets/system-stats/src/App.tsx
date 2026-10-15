@@ -7,6 +7,7 @@ import Host from './components/host';
 import Storage from './components/storage';
 import Network from './components/network';
 import Performance from './components/performance';
+import Claude from './components/claude';
 import Temperature from './components/temperature';
 
 const providers = zebar.createProviderGroup({
@@ -65,6 +66,9 @@ function App() {
               </Route>
               <Route path="/temperature">
                 <Temperature />
+              </Route>
+              <Route path="/claude">
+                <Claude />
               </Route>
             </Switch>
           </div>

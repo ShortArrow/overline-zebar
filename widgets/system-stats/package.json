@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@overline-zebar/claude-usage": "workspace:*",
     "@overline-zebar/config": "workspace:*",
     "@overline-zebar/lhm": "workspace:*",
     "@overline-zebar/tailwind": "workspace:*",

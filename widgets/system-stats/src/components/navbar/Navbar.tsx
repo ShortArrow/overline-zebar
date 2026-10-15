@@ -1,5 +1,12 @@
 import { NavbarItem, Navbar as UiNavbar } from '@overline-zebar/ui';
-import { BarChart, Globe, HardDrive, Server, Thermometer } from 'lucide-react';
+import {
+  BarChart,
+  Globe,
+  HardDrive,
+  Server,
+  Sparkle,
+  Thermometer,
+} from 'lucide-react';
 import { useLocation } from 'wouter';
 
 export default function Navbar() {
@@ -39,6 +46,13 @@ export default function Navbar() {
         Icon={Thermometer}
         title="Temperature"
         href="/temperature"
+        location={location}
+        navigate={navigate}
+      />
+      <NavbarItem
+        Icon={Sparkle}
+        title="Claude"
+        href="/claude"
         location={location}
         navigate={navigate}
       />

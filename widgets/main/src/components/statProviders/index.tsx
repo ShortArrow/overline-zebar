@@ -24,6 +24,7 @@ const USE_TEST_BATTERY = false; // Toggle to true to enable testing
 // ============================================================================
 
 import Stat from '../stat/Stat';
+import ClaudeUsageStat from './claudeUsage/ClaudeUsageStat';
 import TemperatureStat from './temperature/TemperatureStat';
 
 import {
@@ -96,6 +97,13 @@ export default function StatProviders({
 
       {statProviders.temperature && (
         <TemperatureStat
+          inline={useInlineStats}
+          thresholds={systemStatThresholds}
+        />
+      )}
+
+      {statProviders.claudeUsage && (
+        <ClaudeUsageStat
           inline={useInlineStats}
           thresholds={systemStatThresholds}
         />

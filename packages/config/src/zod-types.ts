@@ -42,6 +42,7 @@ export const ProviderSettingsSchema = z.object({
   weather: z.boolean().default(true),
   battery: z.boolean().default(true),
   temperature: z.boolean().default(false),
+  claudeUsage: z.boolean().default(false),
 });
 
 export const TemperatureLimitsSchema = z.object({
