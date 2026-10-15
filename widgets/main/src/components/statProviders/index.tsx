@@ -30,6 +30,8 @@ import {
   BatteryFull,
   BatteryLow,
   BatteryMedium,
+  Cpu,
+  MemoryStick,
 } from 'lucide-react';
 
 type Props = {
@@ -77,7 +79,13 @@ export default function StatProviders({
     >
       {statProviders.cpu && cpu && (
         <Stat
-          Icon={<p className="font-medium text-icon">CPU</p>}
+          Icon={
+            useInlineStats ? (
+              <p className="font-medium text-icon">CPU</p>
+            ) : (
+              <Cpu className={statIconClassnames} aria-label="CPU" />
+            )
+          }
           stat={`${Math.round(cpu.usage)}%`}
           type={useInlineStats ? 'inline' : 'ring'}
           threshold={systemStatThresholds}
@@ -86,7 +94,13 @@ export default function StatProviders({
 
       {statProviders.memory && memory && (
         <Stat
-          Icon={<p className="font-medium text-icon">RAM</p>}
+          Icon={
+            useInlineStats ? (
+              <p className="font-medium text-icon">RAM</p>
+            ) : (
+              <MemoryStick className={statIconClassnames} aria-label="RAM" />
+            )
+          }
           stat={`${Math.round(memory.usage)}%`}
           type={useInlineStats ? 'inline' : 'ring'}
           threshold={systemStatThresholds}
