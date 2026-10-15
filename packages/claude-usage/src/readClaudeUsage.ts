@@ -7,13 +7,32 @@ export type ShellExec = (
   args: string[]
 ) => Promise<{ code: number | null; stdout: string }>;
 
+/**
+ * Why no limits could be read: Claude Code is signed out or its token has
+ * expired, the API is rate limiting, or anything else went wrong.
+ */
+export type ClaudeUsageProblem = 'signed-out' | 'rate-limited' | 'error';
+
 export type ClaudeUsageReading =
-  | { status: 'unavailable' }
+  | { status: 'unavailable'; reason: ClaudeUsageProblem }
   | { status: 'ok'; limits: ClaudeLimit[] };
 
+const unavailable = (reason: ClaudeUsageProblem): ClaudeUsageReading => ({
+  status: 'unavailable',
+  reason,
+});
+
+/** Maps an HTTP status other than 200 to why it gave no limits. */
+const problemOf = (httpStatus: number): ClaudeUsageProblem => {
+  if (httpStatus === 401 || httpStatus === 403) return 'signed-out';
+  if (httpStatus === 429) return 'rate-limited';
+  return 'error';
+};
+
 /**
- * Reads Claude's plan limits once. Any failure, such as Claude Code being
- * signed out or Zebar refusing the command, reads as `unavailable`.
+ * Reads Claude's plan limits once from the script's
+ * `{status, body}` output. Failures that are not an HTTP answer, such as
+ * Zebar refusing the command, read as `error`.
  */
 export async function readClaudeUsage(
   exec: ShellExec
@@ -23,9 +42,11 @@ export async function readClaudeUsage(
       CLAUDE_USAGE_COMMAND.program,
       CLAUDE_USAGE_COMMAND.args
     );
-    if (code !== 0) return { status: 'unavailable' };
-    return { status: 'ok', limits: parseClaudeUsage(JSON.parse(stdout)) };
+    if (code !== 0) return unavailable('error');
+    const { status, body } = JSON.parse(stdout);
+    if (status !== 200) return unavailable(problemOf(status));
+    return { status: 'ok', limits: parseClaudeUsage(JSON.parse(body)) };
   } catch {
-    return { status: 'unavailable' };
+    return unavailable('error');
   }
 }
