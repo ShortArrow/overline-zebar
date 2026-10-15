@@ -41,6 +41,7 @@ export const ProviderSettingsSchema = z.object({
   memory: z.boolean().default(true),
   weather: z.boolean().default(true),
   battery: z.boolean().default(true),
+  claudeUsage: z.boolean().default(false),
 });
 
 export const MainWidgetSettingsSchema = BaseWidgetSettingsSchema.extend({

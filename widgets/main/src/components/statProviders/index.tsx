@@ -24,6 +24,7 @@ const USE_TEST_BATTERY = false; // Toggle to true to enable testing
 // ============================================================================
 
 import Stat from '../stat/Stat';
+import ClaudeUsageStat from './claudeUsage/ClaudeUsageStat';
 
 import {
   BatteryCharging,
@@ -90,6 +91,13 @@ export default function StatProviders({
           stat={`${Math.round(memory.usage)}%`}
           type={useInlineStats ? 'inline' : 'ring'}
           threshold={systemStatThresholds}
+        />
+      )}
+
+      {statProviders.claudeUsage && (
+        <ClaudeUsageStat
+          inline={useInlineStats}
+          thresholds={systemStatThresholds}
         />
       )}
 

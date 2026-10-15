@@ -15,6 +15,12 @@ const providerLabels: Record<keyof ProviderSettings, string> = {
   memory: 'Memory Usage',
   weather: 'Weather',
   battery: 'Battery',
+  claudeUsage: 'Claude Usage',
+};
+
+const providerDescriptions: Partial<Record<keyof ProviderSettings, string>> = {
+  claudeUsage:
+    'Shows the Claude plan limit closest to being reached, as in /usage. Requires Claude Code signed in on this machine.',
 };
 
 export default function SystemStatsTab() {
@@ -71,6 +77,11 @@ export default function SystemStatsTab() {
                     }
                   />
                 </FieldInput>
+                {providerDescriptions[key] && (
+                  <FieldDescription>
+                    {providerDescriptions[key]}
+                  </FieldDescription>
+                )}
               </FormField>
             )
           )}

@@ -56,6 +56,7 @@ export const defaultConfig: RootConfig = {
         memory: true,
         weather: true,
         battery: true,
+        claudeUsage: false,
       },
     },
     'script-launcher': {
