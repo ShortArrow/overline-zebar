@@ -1,12 +1,11 @@
 import { useWidgetSetting } from '@overline-zebar/config';
 import { Button } from '@overline-zebar/ui';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronRight, LayoutGrid } from 'lucide-react';
+import { Columns2, LayoutGrid, Rows2 } from 'lucide-react';
 import { useRef } from 'react';
 import * as zebar from 'zebar';
 import { GlazeWmOutput } from 'zebar';
 import { calculateWidgetPlacementFromLeft } from '../../utils/calculateWidgetPlacement';
-import { cn } from '../../utils/cn';
 
 interface LeftButtonsProps {
   glazewm: GlazeWmOutput | null;
@@ -76,6 +75,8 @@ export function LeftButtons({ glazewm }: LeftButtonsProps) {
         ref={buttonRef}
         className="h-full"
         onClick={handleOpenScriptLauncher}
+        title="Script launcher"
+        aria-label="Script launcher"
       >
         <LayoutGrid strokeWidth={2.5} className="h-3 w-3" />
       </Button>
@@ -84,14 +85,14 @@ export function LeftButtons({ glazewm }: LeftButtonsProps) {
         size="icon-sm"
         onClick={() => glazewm.runCommand('toggle-tiling-direction')}
         className="h-full"
+        title={`Tiling direction: ${glazewm.tilingDirection}`}
+        aria-label={`Tiling direction: ${glazewm.tilingDirection}`}
       >
-        <ChevronRight
-          className={cn(
-            'h-3 w-3 transition-transform duration-200 ease-in-out',
-            glazewm.tilingDirection === 'vertical' ? 'rotate-90' : ''
-          )}
-          strokeWidth={3}
-        />
+        {glazewm.tilingDirection === 'vertical' ? (
+          <Rows2 strokeWidth={2.5} className="h-3 w-3" />
+        ) : (
+          <Columns2 strokeWidth={2.5} className="h-3 w-3" />
+        )}
       </Button>
     </div>
   );
