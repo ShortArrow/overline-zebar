@@ -7,6 +7,7 @@ import Media from './components/media';
 import RightButtons from './components/rightButtons/RightButtons';
 import StatProviders from './components/statProviders';
 import Systray from './components/systray';
+import { useSystray } from './components/systray/useSystray';
 import { TimeDisplay } from './components/TimeDisplay';
 import VolumeControl from './components/volume';
 import { WindowTitle } from './components/windowTitle/WindowTitle';
@@ -21,7 +22,6 @@ const providers = zebar.createProviderGroup({
   date: { type: 'date', formatting: 'EEE d MMM t', locale: 'en-GB' },
   memory: { type: 'memory' },
   audio: { type: 'audio' },
-  systray: { type: 'systray' },
   battery: { type: 'battery' },
 });
 
@@ -73,6 +73,7 @@ function App() {
   const [paddingLeft] = useWidgetSetting('main', 'paddingLeft');
   const [paddingRight] = useWidgetSetting('main', 'paddingRight');
   const [showSystray] = useWidgetSetting('main', 'showSystray');
+  const systray = useSystray(showSystray);
 
   return (
     <div
@@ -122,7 +123,7 @@ function App() {
         </div>
         {showSystray && (
           <div className="h-full flex items-center px-0.5">
-            <Systray systray={output.systray} />
+            <Systray systray={systray} />
           </div>
         )}
         <TimeDisplay dateOutput={output.date} />
