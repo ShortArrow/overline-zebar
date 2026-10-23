@@ -15,6 +15,7 @@
     "@overline-zebar/claude-usage": "workspace:*",
     "@overline-zebar/config": "workspace:*",
     "@overline-zebar/lhm": "workspace:*",
+    "@overline-zebar/systray": "workspace:*",
     "@overline-zebar/tailwind": "workspace:*",
     "@overline-zebar/ui": "workspace:*",
     "@radix-ui/react-slider": "^1.2.2",
