@@ -1,4 +1,5 @@
 import { useSystemThemeSync, useWidgetSetting } from '@overline-zebar/config';
+import { useSystray } from '@overline-zebar/systray';
 import { useEffect, useState } from 'react';
 import * as zebar from 'zebar';
 import { Center } from './components/Center';
@@ -7,7 +8,6 @@ import Media from './components/media';
 import RightButtons from './components/rightButtons/RightButtons';
 import StatProviders from './components/statProviders';
 import Systray from './components/systray';
-import { useSystray } from './components/systray/useSystray';
 import { TimeDisplay } from './components/TimeDisplay';
 import VolumeControl from './components/volume';
 import { WindowTitle } from './components/windowTitle/WindowTitle';
