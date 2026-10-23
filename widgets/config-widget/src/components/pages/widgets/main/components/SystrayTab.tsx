@@ -1,4 +1,5 @@
 import { useWidgetSetting } from '@overline-zebar/config';
+import { useSystray } from '@overline-zebar/systray';
 import {
   FieldDescription,
   FieldInput,
@@ -19,26 +20,16 @@ import {
   TooltipTrigger,
 } from '@overline-zebar/ui';
 import { Search } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import * as zebar from 'zebar';
 
-const providers = zebar.createProviderGroup({
-  systray: { type: 'systray' },
-});
-
 function SystrayTab() {
-  const [output, setOutput] = useState(providers.outputMap);
+  const icons = useSystray(true)?.icons;
   const [showSystray, setShowSystray] = useWidgetSetting('main', 'showSystray');
   const [pinnedSystrayIcons, setPinnedSystrayIcons] = useWidgetSetting(
     'main',
     'pinnedSystrayIcons'
   );
-
-  useEffect(() => {
-    providers.onOutput(() => setOutput(providers.outputMap));
-  }, []);
-
-  const icons = useMemo(() => output.systray?.icons, [output.systray]);
 
   const [search, setSearch] = useState('');
 
@@ -108,7 +99,7 @@ function SystrayTab() {
               </TableHeader>
               <TableBody>
                 {filteredIcons?.map((i) => (
-                  <TableRow key={i.iconHash}>
+                  <TableRow key={i.id}>
                     <TableCell>
                       <Switch
                         checked={isIconPinned(i)}
