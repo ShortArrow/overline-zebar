@@ -3,26 +3,19 @@ import { SystrayIcon, SystrayOutput } from 'zebar';
 import { ExpandingCarousel } from './components/ExpandingCarousel';
 import { SystrayItem } from './components/SystrayItem';
 import { useWidgetSetting } from '@overline-zebar/config';
+import { isPinned, pinIndex } from '@overline-zebar/systray';
 
 type SystrayProps = {
   systray: SystrayOutput | null;
 };
 
-function arrangeIconsWithPinnedCenter(
-  pinnedIcons: string[],
-  icons: SystrayIcon[]
-) {
-  const pinnedHashes = pinnedIcons;
-
+function arrangeIconsWithPinnedCenter(pins: string[], icons: SystrayIcon[]) {
   const pinned = icons
-    .filter((icon) => pinnedHashes.includes(icon.iconHash))
-    .sort(
-      (a, b) =>
-        pinnedHashes.indexOf(a.iconHash) - pinnedHashes.indexOf(b.iconHash)
-    );
+    .filter((icon) => isPinned(pins, icon))
+    .sort((a, b) => pinIndex(pins, a) - pinIndex(pins, b));
 
   const others = icons
-    .filter((icon) => !pinnedHashes.includes(icon.iconHash))
+    .filter((icon) => !isPinned(pins, icon))
     .sort((a, b) => a.tooltip.localeCompare(b.tooltip));
 
   const half = Math.ceil(others.length / 2);
@@ -46,7 +39,7 @@ export default function Systray({ systray }: SystrayProps) {
 
   // Determine the actual pinned icons that are present in the systray
   const presentPinnedIcons = icons.filter((icon) =>
-    pinnedSystrayIcons.includes(icon.iconHash)
+    isPinned(pinnedSystrayIcons, icon)
   );
   const presentPinnedIconsCount = presentPinnedIcons.length;
 

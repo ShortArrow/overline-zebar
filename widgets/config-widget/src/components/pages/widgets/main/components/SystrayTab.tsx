@@ -1,5 +1,5 @@
 import { useWidgetSetting } from '@overline-zebar/config';
-import { useSystray } from '@overline-zebar/systray';
+import { isPinned, togglePin, useSystray } from '@overline-zebar/systray';
 import {
   FieldDescription,
   FieldInput,
@@ -21,7 +21,6 @@ import {
 } from '@overline-zebar/ui';
 import { Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import * as zebar from 'zebar';
 
 function SystrayTab() {
   const icons = useSystray(true)?.icons;
@@ -39,20 +38,6 @@ function SystrayTab() {
     if (!query) return icons;
     return icons.filter((i) => i.tooltip.toLowerCase().includes(query));
   }, [icons, search]);
-
-  const isIconPinned = (icon: zebar.SystrayIcon) => {
-    return !!pinnedSystrayIcons.find((i: string) => icon.iconHash === i);
-  };
-
-  const handleCheckedChange = (toPin: zebar.SystrayIcon) => {
-    if (isIconPinned(toPin)) {
-      setPinnedSystrayIcons(
-        pinnedSystrayIcons.filter((i: string) => i !== toPin.iconHash)
-      );
-    } else {
-      setPinnedSystrayIcons([...pinnedSystrayIcons, toPin.iconHash]);
-    }
-  };
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-6">
@@ -102,8 +87,12 @@ function SystrayTab() {
                   <TableRow key={i.id}>
                     <TableCell>
                       <Switch
-                        checked={isIconPinned(i)}
-                        onCheckedChange={() => handleCheckedChange(i)}
+                        checked={isPinned(pinnedSystrayIcons, i)}
+                        onCheckedChange={() =>
+                          setPinnedSystrayIcons(
+                            togglePin(pinnedSystrayIcons, i)
+                          )
+                        }
                         disabled={!showSystray}
                       />
                     </TableCell>
