@@ -1,4 +1,5 @@
 import { useWidgetSetting } from '@overline-zebar/config';
+import { activeLockKeys, useLockKeys } from '@overline-zebar/lock-keys';
 import { Button } from '@overline-zebar/ui';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronRight, LayoutGrid } from 'lucide-react';
@@ -15,6 +16,7 @@ interface LeftButtonsProps {
 export function LeftButtons({ glazewm }: LeftButtonsProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [marginX] = useWidgetSetting('main', 'marginX');
+  const lockKeys = useLockKeys();
 
   if (!glazewm) return null;
 
@@ -66,6 +68,21 @@ export function LeftButtons({ glazewm }: LeftButtonsProps) {
           >
             <Button size="sm">
               {bindingMode.displayName ?? bindingMode.name}
+            </Button>
+          </motion.div>
+        ))}
+
+        {activeLockKeys(lockKeys).map((lockKey) => (
+          <motion.div
+            key={`lock-${lockKey}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.15, ease: 'easeInOut' }}
+            exit={{ opacity: 0 }}
+            className="flex items-center h-full"
+          >
+            <Button size="sm" title={`${lockKey} lock is on`}>
+              {lockKey}
             </Button>
           </motion.div>
         ))}
