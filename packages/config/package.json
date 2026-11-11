@@ -12,7 +12,7 @@
     "tinycolor2": "^1.6.0",
     "use-debounce": "^10.0.5",
     "zebar": "catalog:",
-    "zod": "^3.23.8"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@overline-zebar/tailwind": "workspace:*",
