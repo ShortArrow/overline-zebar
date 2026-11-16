@@ -4,6 +4,6 @@ import { defineConfig } from 'vitest/config';
 // which restarts zebar.exe.
 export default defineConfig({
   test: {
-    include: ['src/**/*.test.ts'],
+    include: ['src/**/*.test.{ts,tsx}'],
   },
 });

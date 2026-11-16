@@ -147,6 +147,7 @@ Here's a breakdown of the available options:
 - **Horizontal Margin**: Adds space to the left and right of the topbar for a "floating" look.
 - **Left/Right Padding**: Adjusts the inner spacing on the left and right ends of the topbar independently.
 - **Media Max Width**: Sets the maximum width for the media display.
+- **Power Button Position**: Places the power button at the right end of the topbar (default), at the left end before the script launcher button, or hides it.
 
 #### Stats
 
