@@ -42,6 +42,7 @@ export const defaultConfig: RootConfig = {
       useInlineStats: false,
       pinnedSystrayIcons: [],
       showSystray: true,
+      powerButtonPosition: 'right',
       weatherUnit: 'celsius',
       weatherLatitude: null,
       weatherLongitude: null,

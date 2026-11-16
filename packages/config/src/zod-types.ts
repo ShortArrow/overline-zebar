@@ -53,6 +53,9 @@ export const MainWidgetSettingsSchema = BaseWidgetSettingsSchema.extend({
   weatherLongitude: z.number().nullable().default(null),
   pinnedSystrayIcons: z.array(SystrayIconSchema).default([]),
   showSystray: z.boolean().default(true),
+  powerButtonPosition: z
+    .union([z.literal('right'), z.literal('left'), z.literal('hidden')])
+    .default('right'),
   marginX: z.number().default(0),
   paddingLeft: z.number().default(4),
   paddingRight: z.number().default(4),

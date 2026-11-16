@@ -4,6 +4,7 @@ import * as zebar from 'zebar';
 import { Center } from './components/Center';
 import { LeftButtons } from './components/leftButtons';
 import Media from './components/media';
+import { PowerButtonSlot } from './components/rightButtons/PowerButtonSlot';
 import { PowerOffButton } from './components/rightButtons/RightButtons';
 import StatProviders from './components/statProviders';
 import Systray from './components/systray';
@@ -73,6 +74,7 @@ function App() {
   const [paddingLeft] = useWidgetSetting('main', 'paddingLeft');
   const [paddingRight] = useWidgetSetting('main', 'paddingRight');
   const [showSystray] = useWidgetSetting('main', 'showSystray');
+  const [powerButtonPosition] = useWidgetSetting('main', 'powerButtonPosition');
 
   return (
     <div
@@ -87,6 +89,11 @@ function App() {
         className="flex items-center gap-2 h-full z-10"
         style={{ paddingLeft: `${paddingLeft}px` }}
       >
+        <PowerButtonSlot side="left" position={powerButtonPosition}>
+          <div className="flex items-center h-full">
+            <PowerOffButton />
+          </div>
+        </PowerButtonSlot>
         <div className="flex items-center gap-2 h-full">
           <LeftButtons glazewm={output.glazewm} />
         </div>
@@ -105,7 +112,10 @@ function App() {
       </div>
 
       {/* Right */}
-      <div className="flex gap-2 items-center h-full z-10">
+      <div
+        className="flex gap-2 items-center h-full z-10"
+        style={{ paddingRight: `${paddingRight}px` }}
+      >
         <div className="flex items-center h-full">
           <StatProviders
             weather={weather}
@@ -126,12 +136,11 @@ function App() {
           </div>
         )}
         <TimeDisplay dateOutput={output.date} />
-        <div
-          className="flex items-center h-full"
-          style={{ paddingRight: `${paddingRight}px` }}
-        >
-          <PowerOffButton />
-        </div>
+        <PowerButtonSlot side="right" position={powerButtonPosition}>
+          <div className="flex items-center h-full">
+            <PowerOffButton />
+          </div>
+        </PowerButtonSlot>
       </div>
     </div>
   );

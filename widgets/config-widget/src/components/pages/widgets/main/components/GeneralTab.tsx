@@ -2,15 +2,30 @@ import { Separator } from '@/components/common/Separator';
 import { useState } from 'react';
 import { NumberInput } from '@/components/NumberInput';
 import { useWidgetSetting } from '@overline-zebar/config';
+import type { MainWidgetSettings } from '@overline-zebar/config';
 import {
   FieldDescription,
   FieldInput,
   FieldTitle,
   FormField,
   Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
   Switch,
   Button, // Added Button import
 } from '@overline-zebar/ui';
+
+const powerButtonPositionOptions: {
+  label: string;
+  value: MainWidgetSettings['powerButtonPosition'];
+}[] = [
+  { label: 'Right end', value: 'right' },
+  { label: 'Left end', value: 'left' },
+  { label: 'Hidden', value: 'hidden' },
+];
 
 function GeneralTab() {
   const [mediaMaxWidth, setMediaMaxWidth] = useWidgetSetting(
@@ -28,6 +43,10 @@ function GeneralTab() {
   );
   const [dynamicWorkspaceIndicator, setDynamicWorkspaceIndicator] =
     useWidgetSetting('main', 'dynamicWorkspaceIndicator');
+  const [powerButtonPosition, setPowerButtonPosition] = useWidgetSetting(
+    'main',
+    'powerButtonPosition'
+  );
 
   const handleLinkedPaddingChange = (value: number) => {
     setPaddingLeft(value);
@@ -107,6 +126,41 @@ function GeneralTab() {
         </FieldInput>
         <FieldDescription>
           Set the maximum width for media displayed in the topbar widget.
+        </FieldDescription>
+      </FormField>
+      <Separator />
+      <FormField>
+        <FieldTitle>Power Button Position</FieldTitle>
+        <FieldInput>
+          <Select
+            onValueChange={(value) =>
+              setPowerButtonPosition(
+                value as MainWidgetSettings['powerButtonPosition']
+              )
+            }
+            defaultValue={powerButtonPosition}
+            items={powerButtonPositionOptions}
+          >
+            <SelectTrigger>
+              <SelectValue>
+                {(value: string) =>
+                  powerButtonPositionOptions.find((opt) => opt.value === value)
+                    ?.label ?? ''
+                }
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {powerButtonPositionOptions.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </FieldInput>
+        <FieldDescription>
+          Where the power button sits in the topbar. Move it away from the right
+          end so closing windows in a hurry cannot hit it.
         </FieldDescription>
       </FormField>
     </>
