@@ -5,15 +5,7 @@ import { useState } from 'react';
 import * as zebar from 'zebar';
 import { cn } from '../../utils/cn';
 
-export default function RightButtons() {
-  return (
-    <div className="flex items-center gap-2 h-full">
-      <PowerOffButton />
-    </div>
-  );
-}
-
-function PowerOffButton() {
+export function PowerOffButton() {
   const [shuttingDown, setShuttingDown] = useState(false);
 
   const handlePowerOff = async () => {

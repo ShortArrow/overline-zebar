@@ -4,7 +4,7 @@ import * as zebar from 'zebar';
 import { Center } from './components/Center';
 import { LeftButtons } from './components/leftButtons';
 import Media from './components/media';
-import RightButtons from './components/rightButtons/RightButtons';
+import { PowerOffButton } from './components/rightButtons/RightButtons';
 import StatProviders from './components/statProviders';
 import Systray from './components/systray';
 import { TimeDisplay } from './components/TimeDisplay';
@@ -130,7 +130,7 @@ function App() {
           className="flex items-center h-full"
           style={{ paddingRight: `${paddingRight}px` }}
         >
-          <RightButtons />
+          <PowerOffButton />
         </div>
       </div>
     </div>
